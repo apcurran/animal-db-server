@@ -4,6 +4,7 @@ const express = require("express");
 const router = express.Router();
 // Animal model
 const Animal = require("../models/Animal");
+const verifyAuth = require("../middleware/verifyAuth");
 
 router.get("/", async (req, res) => {
     try {
@@ -19,7 +20,7 @@ router.get("/", async (req, res) => {
     }
 });
 
-router.post("/animal", async (req, res) => {
+router.post("/animal", verifyAuth, async (req, res) => {
     // Destructure values from req.body obj
     const {
         animal_common_name,
@@ -61,7 +62,7 @@ router.post("/animal", async (req, res) => {
 });
 
 // PATCH an existing animal's data
-router.patch("/animal/:search_term", async (req, res) => {
+router.patch("/animal/:search_term", verifyAuth, async (req, res) => {
     const { search_term } = req.params;
     const regexSearch = new RegExp(search_term, "i");
     const query = { animal_common_name: regexSearch }; // Search for animal case-insensitive
@@ -82,7 +83,7 @@ router.patch("/animal/:search_term", async (req, res) => {
     }
 });
 
-router.delete("/animal/:id", async (req, res) => {
+router.delete("/animal/:id", verifyAuth, async (req, res) => {
     const { id } = req.params;
 
     try {
