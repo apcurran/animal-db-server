@@ -8,6 +8,7 @@ const PORT = process.env.PORT || 5000;
 const morgan = require("morgan");
 // Import Routes
 const animalsRouter = require("./api/routes/animals");
+const userRouter = require("./api/routes/user");
 
 const app = express();
 
@@ -28,5 +29,6 @@ app.use(express.json());
 
 // Routes
 app.use("/api/animals", animalsRouter);
+app.use("/api/user", userRouter);
 
 app.listen(PORT, () => console.log(`Server running on port, ${PORT}.`));
