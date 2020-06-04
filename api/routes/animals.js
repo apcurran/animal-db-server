@@ -89,6 +89,10 @@ router.delete("/animal/:id", verifyAuth, async (req, res) => {
     try {
         await Animal.findByIdAndDelete(id);
 
+        res.status(200).json({
+            message: "Animal successfully deleted."
+        });
+
     } catch (err) {
         console.error(err);
 
