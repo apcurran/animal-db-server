@@ -16,6 +16,9 @@ function registerValidation(data) {
         password: Joi
                 .string()
                 .min(6)
+                .required(),
+        secret: Joi
+                .string()
                 .required()
     });
 

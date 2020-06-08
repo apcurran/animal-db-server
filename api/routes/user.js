@@ -22,10 +22,18 @@ router.post("/register", async (req, res) => {
     // Check if user is already in the db
     try {
         const emailExists = await User.findOne({ email: req.body.email });
+
+        console.log(req.body);
         
         if (emailExists) {
             return res.status(400).json({
                 error: "Email already exists."
+            });
+        }
+
+        if (req.body.secret !== process.env.ADMIN_SECRET) {
+            return res.status(401).json({
+                error: "You have not provided the correct secret."
             });
         }
 
@@ -44,7 +52,7 @@ router.post("/register", async (req, res) => {
         const savedUser = await user.save();
 
         res.status(201).json({
-            message: "New user registered.",
+            message: "New admin registered.",
             user: user._id
         });
 
