@@ -20,6 +20,20 @@ router.get("/", async (req, res) => {
     }
 });
 
+router.get("/animal/:id", async (req, res) => {
+    try {
+        const animal = await Animal.findById(req.params.id);
+
+        res.status(200).json(animal);
+        
+    } catch (err) {
+        console.error(err);
+        res.status(500).json({
+            error: err
+        });
+    }
+});
+
 router.post("/animal", verifyAuth, async (req, res) => {
     // Destructure values from req.body obj
     const {
@@ -31,6 +45,7 @@ router.post("/animal", verifyAuth, async (req, res) => {
         animal_size,
         animal_weight,
         animal_fact,
+        animal_desc,
         main_img_url
     } = req.body;
 
@@ -43,6 +58,7 @@ router.post("/animal", verifyAuth, async (req, res) => {
         animal_size,
         animal_weight,
         animal_fact,
+        animal_desc,
         main_img_url 
     });
 
