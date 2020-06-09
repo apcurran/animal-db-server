@@ -5,6 +5,7 @@ const router = express.Router();
 // Animal model
 const Animal = require("../models/Animal");
 const verifyAuth = require("../middleware/verifyAuth");
+const { addAnimalValidation, editAnimalValidation } = require("../validation/validate-animal");
 
 router.get("/", async (req, res) => {
     try {
@@ -35,6 +36,16 @@ router.get("/animal/:id", async (req, res) => {
 });
 
 router.post("/animal", verifyAuth, async (req, res) => {
+    // Validate incoming data
+    try {
+        await addAnimalValidation(req.body);
+
+    } catch (err) {
+        return res.status(400).json({
+            error: err.details[0].message
+        });
+    }
+
     // Destructure values from req.body obj
     const {
         animal_common_name,
@@ -79,6 +90,16 @@ router.post("/animal", verifyAuth, async (req, res) => {
 
 // PATCH an existing animal's data
 router.patch("/animal/:id", verifyAuth, async (req, res) => {
+    // Validate incoming data
+    try {
+        await editAnimalValidation(req.body);
+
+    } catch (err) {
+        return res.status(400).json({
+            error: err.details[0].message
+        });
+    }
+
     const { id } = req.params;
 
     try {
