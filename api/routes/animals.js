@@ -78,13 +78,11 @@ router.post("/animal", verifyAuth, async (req, res) => {
 });
 
 // PATCH an existing animal's data
-router.patch("/animal/:search_term", verifyAuth, async (req, res) => {
-    const { search_term } = req.params;
-    const regexSearch = new RegExp(search_term, "i");
-    const query = { animal_common_name: regexSearch }; // Search for animal case-insensitive
+router.patch("/animal/:id", verifyAuth, async (req, res) => {
+    const { id } = req.params;
 
     try {
-        await Animal.findOneAndUpdate(query, { $set: req.body });
+        await Animal.findByIdAndUpdate(id, { $set: req.body });
     
         res.status(201).json({
             message: "Animal data updated!"
