@@ -6,6 +6,8 @@ const mongoose = require("mongoose");
 const cors = require("cors");
 const PORT = process.env.PORT || 5000;
 const morgan = require("morgan");
+const compression = require("compression");
+const helmet = require("helmet");
 // Import Routes
 const animalsRouter = require("./api/routes/animals");
 const userRouter = require("./api/routes/user");
@@ -24,6 +26,8 @@ if (process.env.NODE_ENV === "development") {
     app.use(morgan("dev"));
 }
 
+app.use(helmet());
+app.use(compression()); // Enable compression for all routes
 app.use(cors()); // Enable cors for all routes
 app.use(express.json());
 
